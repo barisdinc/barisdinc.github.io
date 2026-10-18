@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baris Dinc · TA7W / OH2UDS</title>
+<meta name="description" content="Amateur radio projects by Baris Dinc (TA7W / OH2UDS): ASELSAN radio firmware and DATV.">
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --text: #1d1d1b; --muted: #5f5f5a;
+    --line: #e2e2dc; --accent: #0b6e4f; --chip: #eef5f1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #141513; --card: #1c1e1b; --text: #ecece8; --muted: #a3a39c;
+            --line: #2c2f2b; --accent: #4fc49a; --chip: #1f2c26; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; gap: 20px; align-items: center; margin-bottom: 40px; }
+  header img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none;
+               border: 1px solid var(--line); }
+  h1 { margin: 0; font-size: 1.7rem; }
+  .call { color: var(--accent); font-weight: 600; letter-spacing: .03em; }
+  .lead { margin: 4px 0 0; color: var(--muted); }
+  h2 { font-size: 1.1rem; margin: 36px 0 12px; text-transform: uppercase; letter-spacing: .06em;
+       color: var(--muted); }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px;
+          display: flex; flex-direction: column; gap: 8px; }
+  .card h3 { margin: 0; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .card p.tr { font-style: italic; font-size: .9rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+  .links a { background: var(--chip); color: var(--accent); text-decoration: none; font-size: .85rem;
+             font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+  .links a:hover { text-decoration: underline; }
+  footer { margin-top: 48px; color: var(--muted); font-size: .9rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="https://github.com/barisdinc/barisdinc/raw/master/IMG_20200326_103717.jpg" alt="Baris Dinc">
+    <div>
+      <h1>Baris Dinc <span class="call">TA7W / OH2UDS</span></h1>
+      <p class="lead">Amateur radio projects: bringing old radios back to life, and digital amateur television.</p>
+    </div>
+  </header>
+
+  <h2>ASELSAN radios</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>ASELSAN 4000</h3>
+      <p>Reverse engineering of the ASELSAN 4000 series VHF/UHF radio firmware (Mitsubishi M37732): full disassembly, a 7700 assembler, custom firmware examples, and a simulator that runs the original firmware in the browser.</p>
+      <p class="tr">ASELSAN 4000 serisi telsiz yazılımının çözümlenmesi ve tarayıcıda çalışan simülatör.</p>
+      <div class="links"><a href="https://barisdinc.github.io/ASELSAN_4000/">Simulator</a><a href="https://github.com/barisdinc/ASELSAN_4000">Repo</a></div>
+    </article>
+    <article class="card">
+      <h3>ASELSAN 4822</h3>
+      <p>New-generation modifications for the ASELSAN 4822 / 4826: replacement controller boards (Arduino Nano, ESP32, Raspberry Pi Pico) with many new features, plus service documentation.</p>
+      <p class="tr">ASELSAN 4822 için yeni kontrol kartları ve özellikler.</p>
+      <div class="links"><a href="https://github.com/barisdinc/ASELSAN_4822">Repo</a></div>
+    </article>
+  </div>
+
+  <h2>DATV · digital amateur television</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>ESP32-DATV-SA</h3>
+      <p>Stand-alone DVB-S2 transmitter and beacon on an ESP32-C3, using the chip's own 2.4 GHz Wi-Fi radio. No PC needed. Fork of <a href="https://github.com/SP8ESA/ESP32-DATV">SP8ESA/ESP32-DATV</a>.</p>
+      <p class="tr">PC gerektirmeyen ESP32-C3 DVB-S2 verici.</p>
+      <div class="links"><a href="https://barisdinc.github.io/ESP32-DATV-SA/">Page</a><a href="https://barisdinc.github.io/ESP32-DATV-SA/FLASHING">Flash from browser</a><a href="https://barisdinc.github.io/ESP32-DATV-SA/VIDEO">Own video</a><a href="https://github.com/barisdinc/ESP32-DATV-SA">Repo</a></div>
+    </article>
+    <article class="card">
+      <h3>ESP32-DATV-RX</h3>
+      <p>DVB-S2 receiver for ESP32-DATV-SA: an ESP32-S3 captures the Wi-Fi receiver's raw I/Q and streams it over USB; the PC demodulates.</p>
+      <p class="tr">ESP32-S3 ile DVB-S2 alıcı.</p>
+      <div class="links"><a href="https://github.com/barisdinc/ESP32-DATV-RX">Repo</a></div>
+    </article>
+    <article class="card">
+      <h3>yATOLYE DATV Repeater</h3>
+      <p>2.4 GHz to 5.8 GHz DATV repeater on the ADALM-PLUTO SDR. The RX-to-TX relay runs in the FPGA, with an optional DVB-S2 beacon.</p>
+      <p class="tr">ADALM-PLUTO üzerinde DATV röle.</p>
+      <div class="links"><a href="https://youtu.be/p3D83u95pEU">Video</a><a href="https://github.com/barisdinc/yATOLYE-DATV-Repeater">Repo</a></div>
+    </article>
+  </div>
+
+  <footer>All projects on <a href="https://github.com/barisdinc">github.com/barisdinc</a>.</footer>
+</main>
+</body>
+</html>
