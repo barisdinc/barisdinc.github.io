@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QO-100 Pocket Radio</title>
+<meta name="description" content="ESP8266 internet radio for the QO-100 narrowband transponder: listens to 10489.777 MHz USB on a WebSDR. Flash it from the browser.">
+<script type="module" src="https://unpkg.com/esp-web-tools@10.4.0/dist/web/install-button.js?module"></script>
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --text: #1d1d1b; --muted: #5f5f5a;
+    --line: #e2e2dc; --accent: #0b6e4f; --chip: #eef5f1; --warn: #9a5b00; --warnbg: #fff6e6;
+    --code: #f0f0ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #141513; --card: #1c1e1b; --text: #ecece8; --muted: #a3a39c;
+            --line: #2c2f2b; --accent: #4fc49a; --chip: #1f2c26; --warn: #f0b45a; --warnbg: #2b2418;
+            --code: #252823; }
+  }
+  :root[data-theme="dark"] { --bg: #141513; --card: #1c1e1b; --text: #ecece8; --muted: #a3a39c;
+            --line: #2c2f2b; --accent: #4fc49a; --chip: #1f2c26; --warn: #f0b45a; --warnbg: #2b2418;
+            --code: #252823; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  a { color: var(--accent); }
+  .back { font-size: .9rem; text-decoration: none; }
+  .hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 28px; align-items: center; margin: 18px 0 8px; }
+  .hero img { width: 100%; height: auto; }
+  h1 { margin: 0 0 6px; font-size: 1.8rem; line-height: 1.2; }
+  .freq { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .lead { color: var(--muted); margin: 0 0 6px; }
+  .tr { font-style: italic; color: var(--muted); font-size: .93rem; }
+  h2 { font-size: 1.1rem; margin: 40px 0 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .install { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  esp-web-install-button button[slot="activate"] {
+    background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 12px 22px;
+    font: 600 1rem system-ui, sans-serif; cursor: pointer; }
+  .note { background: var(--warnbg); color: var(--warn); border-radius: 8px; padding: 10px 14px; font-size: .92rem; margin-top: 14px; }
+  ol, ul { padding-left: 22px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .two h3 { margin: 0 0 6px; font-size: 1rem; }
+  code, pre { background: var(--code); border-radius: 6px; font: .88rem ui-monospace, "SFMono-Regular", Menlo, monospace; }
+  code { padding: 1px 5px; }
+  pre { padding: 12px 14px; overflow-x: auto; margin: 10px 0; line-height: 1.35; }
+  table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .ap { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+  .ap span { background: var(--chip); color: var(--accent); font-weight: 700; padding: 4px 12px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .9rem; }
+  .flow b { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-weight: 600; }
+  .flow i { color: var(--muted); font-style: normal; }
+  footer { margin-top: 48px; color: var(--muted); font-size: .9rem; }
+  @media (max-width: 680px) { .hero, .two { grid-template-columns: 1fr; } .hero img { max-width: 420px; margin: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../">← barisdinc.github.io</a>
+
+  <section class="hero">
+    <img src="radio.svg" alt="Vintage-style pocket shortwave radio tuned to 10489.777 MHz" width="640" height="520">
+    <div>
+      <h1>QO-100 WebSDR Pocket Radio</h1>
+      <p class="lead">An ESP8266 that plays the QO-100 narrowband transponder like a little stand-alone shortwave set. It listens to <span class="freq">10489.777&nbsp;MHz USB</span> on the BATC or IS0GRB WebSDR and outputs audio on one pin. You tune it from your phone.</p>
+      <p class="tr">QO-100 dar bant transponderini küçük bir kısa dalga radyosu gibi çalan ESP8266. 10489.777 MHz USB dinler, ayarları telefondan yapılır.</p>
+    </div>
+  </section>
+
+  <h2>1 · Flash from the browser / Tarayıcıdan yükle</h2>
+  <div class="card">
+    <div class="install">
+      <esp-web-install-button manifest="firmware/manifest.json">
+        <button slot="activate">Install firmware</button>
+        <span slot="unsupported">Your browser does not support Web Serial. Use <b>Chrome</b> or <b>Edge</b> on a desktop. / Tarayıcınız desteklemiyor, masaüstünde Chrome veya Edge kullanın.</span>
+        <span slot="not-allowed">Web Serial needs HTTPS. / HTTPS gerekli.</span>
+      </esp-web-install-button>
+      <div>
+        <div>Firmware <b>1.0.0</b> · ESP8266 (ESP-12, <b>4&nbsp;MB flash</b>): NodeMCU, Wemos D1 mini…</div>
+        <div class="tr">Kartı USB ile bağlayın, düğmeye basın, seri portu seçin.</div>
+      </div>
+    </div>
+    <ol>
+      <li>Connect the board by USB and click <b>Install firmware</b>. Choose the serial port (<code>CH340</code>, <code>CP210x</code>…).</li>
+      <li>On a first install, tick <b>Erase device</b>. This takes about 1 minute.</li>
+      <li>On Linux, if the port is not listed, run <code>sudo usermod -aG dialout $USER</code> and log in again. Chromium installed as a snap cannot open serial ports.</li>
+    </ol>
+    <div class="note"><b>Unplug the audio filter from GPIO3 (RX) while flashing.</b> It loads the USB-serial RX line and the upload fails with “Failed to connect”.
+      <br><span class="tr">Yükleme sırasında GPIO3'teki ses filtresini ayırın.</span></div>
+  </div>
+
+  <h2>2 · Connect it to WiFi / WiFi'ye bağla</h2>
+  <div class="card two">
+    <div>
+      <h3>English</h3>
+      <ol>
+        <li>Power the radio and wait about 25 s.</li>
+        <li>On your phone, join the WiFi network:
+          <div class="ap"><span>SSID: qo100</span><span>Password: 10489777</span></div></li>
+        <li>If the phone says “no internet”, choose <b>Stay connected</b>. Turn off mobile data for a minute.</li>
+        <li>The setup page opens by itself, or go to <a href="http://192.168.4.1">http://192.168.4.1</a>.</li>
+        <li>Tap your home network, enter its password, and press <b>Kaydet ve yeniden başlat</b> (Save &amp; restart).</li>
+        <li>Put your phone back on your home WiFi.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Türkçe</h3>
+      <ol>
+        <li>Radyoya güç verin, yaklaşık 25 sn bekleyin.</li>
+        <li>Telefonda şu WiFi ağına bağlanın:
+          <div class="ap"><span>Ağ: qo100</span><span>Şifre: 10489777</span></div></li>
+        <li>“İnternet yok” uyarısında <b>Bağlı kal</b> seçin. Mobil veriyi bir dakikalığına kapatın.</li>
+        <li>Kurulum sayfası kendiliğinden açılır, ya da <a href="http://192.168.4.1">http://192.168.4.1</a> adresine gidin.</li>
+        <li>Ev ağınıza dokunun, şifreyi girin, <b>Kaydet ve yeniden başlat</b>'a basın.</li>
+        <li>Telefonu tekrar ev WiFi'nize bağlayın.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>3 · Listen / Dinle: qo100.local</h2>
+  <div class="card">
+    <p style="margin-top:0">On the same WiFi, open <a href="http://qo100.local">http://qo100.local</a>. <b>Android:</b> use the radio's IP address instead (shown in your router's client list as <code>qo100</code>). The radio starts playing about 6 s after power-on, with the last settings.
+      <br><span class="tr">Aynı ağda http://qo100.local adresini açın. Android'de radyonun IP adresini kullanın. Radyo, açılıştan yaklaşık 6 sn sonra son ayarlarla çalar.</span></p>
+    <table>
+      <tr><th>Control</th><th>What it does / İşlevi</th></tr>
+      <tr><td>−1k −100 −10 +10 +100 +1k</td><td>Step the frequency in Hz / Frekansı Hz adımlarıyla değiştir</td></tr>
+      <tr><td>Fine-tune slider</td><td>±3 kHz around 10489.777 MHz / ±3 kHz ince ayar</td></tr>
+      <tr><td>MHz box · Git · Merkez</td><td>Type a frequency, or go back to 10489.777 / Frekans gir ya da merkeze dön</td></tr>
+      <tr><td>Ses açık / SESSİZ · volume</td><td>Mute and volume / Sessiz ve ses seviyesi</td></tr>
+      <tr><td>Squelch eşiği</td><td>Cut audio below an S-meter level, far left = off / S-metre eşiğinin altında sesi kes</td></tr>
+      <tr><td>WebSDR sunucusu</td><td>BATC (eshail.batc.org.uk) or IS0GRB</td></tr>
+    </table>
+    <p style="margin-bottom:0">All settings are saved and come back after a power cut. / Tüm ayarlar kaydedilir, kapatıp açınca aynı yerden başlar.</p>
+  </div>
+
+  <h2>4 · Circuit / Devre</h2>
+  <div class="card">
+<pre>GPIO3 (RX) ──[1k]──┬──[4.7k]──┬──||──> amplifier (PAM8403 / LM386)
+                   │          │  1µF
+                 [47n]      [10n]
+                   │          │
+GND ───────────────┴──────────┴──────> amplifier GND</pre>
+    <p style="margin:0">Two RC poles at about 3.4 kHz turn the 512 kbit/s 1-bit sigma-delta stream from the I2S peripheral into audio. For a filter that can stay connected while flashing, use 4.7k/10n → 47k/1n (not yet tested). Add 470–1000 µF + 100 nF across 3.3 V if you hear WiFi buzz.
+      <br><span class="tr">İki RC kutbu (≈3.4 kHz), I2S'in ürettiği 1-bit sigma-delta akışı sese çevirir. WiFi vızıltısı için 3.3 V'a 470–1000 µF + 100 nF ekleyin.</span></p>
+  </div>
+
+  <h2>How it works / Çalışma mantığı</h2>
+  <div class="card">
+    <div class="flow">
+      <b>QO-100</b><i>→</i><b>WebSDR</b><i>→ WebSocket (TLS) →</i><b>Decoder</b><i>→</i><b>Squelch</b><i>→</i><b>512 ms buffer</b><i>→ DMA IRQ →</i><b>Σ-Δ I2S</b><i>→ GPIO3 →</i><b>RC LPF</b><i>→</i><b>Amp</b>
+    </div>
+    <p style="margin-bottom:0">The I2S DMA is refilled inside its own interrupt, so audio does not depend on what the main loop is doing (TLS, web requests, flash writes). If the network stalls, the output stays at quiet mid-scale and does not click.
+      <br><span class="tr">I2S DMA kendi kesmesi içinde doldurulur. Ana döngü meşgulken bile ses kesilmez, ağ takılırsa tık yerine sessizlik olur.</span></p>
+  </div>
+
+  <div class="note" style="margin-top:28px">The WebSDR audio format belongs to PA3FWM's WebSDR software (pa3fwm@websdr.org). Please respect the WebSDR operators: one connection per radio, and don't leave it streaming when nobody is listening.
+    <br><span class="tr">WebSDR ses formatı PA3FWM'ye aittir. WebSDR işletmecilerine saygı gösterin: radyo başına tek bağlantı, dinlemiyorken kapatın.</span></div>
+
+  <footer>73 de TA7W / OH2UDS · <a href="../">All projects</a></footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "QO-100 WebSDR Pocket Radio",
+  "version": "1.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP8266",
+      "parts": [
+        { "path": "qo100-radio-esp8266-1.0.0.bin", "offset": 0 }
+      ]
+    }
+  ]
+}
